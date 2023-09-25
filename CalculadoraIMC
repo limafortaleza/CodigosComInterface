@@ -1,0 +1,45 @@
+from tkinter import *
+from tkinter import messagebox
+
+janela=Tk()
+
+janela.geometry('400x300')
+janela.title('Calcula IMC')
+
+def calcular()->None:
+    peso=float(txt_peso.get())
+    altura=float(txt_altura.get())
+    resultado=peso/(altura*altura)
+    if resultado<17:
+        text='MUITO ABAIXO DO PESO'
+    elif resultado >17 and resultado<18.9:
+        text='ABAIXO DO PESO'
+    elif resultado>=18.9 and resultado<24.99:
+        text='PESO NORMAL'
+    else:
+        text='ACIMA DO PESO'
+    messagebox.showinfo('Resultado!',
+                        f'SEU IMC é: {resultado:.2f}\n'
+                        f'VOCE ESTÁ {text}!'
+                        )
+
+
+    txt_peso.delete(0, END)  # pra apagar o nome quando o usuario enviar
+    txt_altura.delete(0, END)  # pra apagar o nome quando o usuario enviar
+
+label_titulo=Label(janela,text='CALCULADORA IMC', font='Arial 20 bold', fg='black')
+label_titulo.place(x=60,y=15)
+
+
+label_peso=Label(text='Peso:', font='Arial 16 bold', foreground='Black')
+label_peso.place(x=60,y=70)
+txt_peso=Entry(janela, font='Arial 16 bold', foreground='Black', width=10)
+txt_peso.place(x=150,y=70)
+label_altura=Label(janela,text='Altura:', font='Arial 16 bold', foreground='Black' )
+label_altura.place(x=60,y=120)
+txt_altura=Entry(janela, font='Arial 16 bold', foreground='Black',width=10)
+txt_altura.place(x=150,y=120)
+btn_calcular=Button(janela, text='Calcular', bg='orange',font='Arial 16 bold', fg='white', height=1, width=10,command=calcular)
+btn_calcular.place(x=150,y=200,)
+
+janela.mainloop()
