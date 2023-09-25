@@ -1,0 +1,69 @@
+'''DESAFIO 36: Escreva um programa para aprovar o empréstimo bancário para a compra de uma casa.
+O programa vai perguntar o valor da casa, o salário do comprador e em quantos anos ele vai pagar.
+Calcula o valor da prestação mensal, sabendo que ela não pode exceder 30% do salário ou então o empréstimo
+será negado.'''
+from tkinter import *
+from tkinter import messagebox
+
+janela=Tk()
+janela.grid
+janela.title('Caluladora Habitacional')
+janela.geometry('600x500')
+x=StringVar()
+y=StringVar()
+
+def calcula_financiamento():
+
+
+    valor=eval(box_valor_imovel.get())
+    salario=eval(box_valor_salario.get())
+    ano=eval(box_ano.get())
+    prestacao= valor/(ano*12)
+    porcentagem=(prestacao/salario)*100
+
+    if porcentagem<=30:
+        x.set(f'Financiamento APROVADO!! Valor da Prestação R$: {round(prestacao)},00.\n'
+              f'Pagamento em {ano*12} meses.')
+    else:
+        y.set('Financiamento REPROVADO!!. Sua prestação mensal compromete \n'
+              f'{round(porcentagem)}% de sua renda!'
+        )
+
+def limpar()->None:
+    box_valor_imovel.delete(0,END)
+    box_valor_salario.delete(0, END)
+    box_ano.delete(0, END)
+
+label_titulo=Label(janela, text='CALCULADORA HABITACIONAL', font='Arial 16 bold', fg='white',bg='green')
+label_titulo.place(x=180, y=50)
+
+label_valor=Label(janela, text='Valor do Imóvel:', fg='black', font='Arial 12 bold')
+label_valor.place(x=30, y=130)
+box_valor_imovel=Entry(janela, font='Arial 12', width=15,border=2)
+box_valor_imovel.place(x=180,y=130)
+
+label_salario=Label(janela, text='Valor do Salário:', fg='black', font='Aril 12 bold')
+label_salario.place(x=30, y=180)
+box_valor_salario=Entry(janela, font='Arial 12', width=15, border=2)
+box_valor_salario.place(x=180, y=180)
+
+label_ano=Label(janela, text='Prazo (em anos):', fg='black', font='Arial 12 bold')
+label_ano.place(x=30, y=230)
+box_ano=Entry(janela, font='Arial 12', width=15,border=2)
+box_ano.place(x=180, y=230)
+
+
+btn_calcular=Button(janela, text='Calcular finaciamento', fg='red', font='Arial 12 bold', command=calcula_financiamento)
+btn_calcular.place(x=180, y=300)
+
+btn_calcular=Button(janela, text='Limpar', fg='red', font='Arial 12 bold', command=limpar)
+btn_calcular.place(x=450, y=300)
+
+label_resultado=Label(janela,textvariable=x, fg='blue', font='Arial 12 bold',justify='center', borderwidth=10)
+label_resultado.place(x=30, y=400)
+
+label_resultado=Label(janela,textvariable=y, fg='red', font='Arial 12 bold',justify='center', borderwidth=10)
+label_resultado.place(x=30, y=400)
+
+
+janela.mainloop()
