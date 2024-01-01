@@ -1,7 +1,8 @@
-'''DESAFIO 36: Escreva um programa para aprovar o empréstimo bancário para a compra de uma casa.
+'''Escreva um programa para aprovar o empréstimo bancário para a compra de uma casa.
 O programa vai perguntar o valor da casa, o salário do comprador e em quantos anos ele vai pagar.
 Calcula o valor da prestação mensal, sabendo que ela não pode exceder 30% do salário ou então o empréstimo
 será negado.'''
+
 from tkinter import *
 from tkinter import messagebox
 
