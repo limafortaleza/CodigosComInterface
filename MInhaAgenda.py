@@ -15,14 +15,14 @@ frame1.pack()
 
 agenda=[]
 index=0
-def adicionar_contato()->None:
+def adicionarContato()->None:
     contato=box_contato.get()
     telefone=box_telefone.get()
     categoria=combo_categoria.get()
 
     contato={
         'nome': contato,
-        'telefone':telefone,
+        'telefone': telefone,
         'categoria': categoria
     }
     agenda.append(contato)
@@ -44,12 +44,19 @@ def tabelaClique(event)->None:
 
 
 def editar()->None:
-    pass
-
+    agenda[index] = {'nome': box_contato.get(),
+                     'telefone': box_telefone.get(),
+                     'categoria': combo_categoria.get()}
+    messagebox.showinfo('editado!', 'dados alterados com sucesso!')
+    atualizarTabela()
+    limparCampos()
 
 
 def apagar()->None:
-    pass
+    agenda.remove(agenda[index])
+    messagebox.showinfo('deletado', 'Contato apagado com sucesso!')
+    limparCampos()
+    atualizarTabela()
 
 
 def limparCampos() ->None:
@@ -57,8 +64,23 @@ def limparCampos() ->None:
     box_telefone.delete(0,END)
     combo_categoria.set('')
 
+def atualizarTabela() -> None: #atualizar os contatos na agenda,
+    #limpando a tabela
+    for linha in tabela.get_children(): #traz todas as linhas da tabela
+        tabela.delete(linha)
+    for contato in agenda:
+        tabela.insert("", END, values=(contato['nome'],contato['Telefone'],contato['Categoria']))  #essa aspas seria para representar o pai, como não há uma outra tabela
 
-
+def tabela_clique(event) -> None:
+    #pegando o indice da linha a partir da tupla criada, A tupla so tem 1 incide 0, por isso que passou [0]
+    linha_selecionada = tabela.selection()
+    global index
+    index = tabela.index(linha_selecionada[0])
+    contato = agenda[index]
+    limparCampos()
+    box_contato.insert(0,contato['nome'])
+    box_telefone.insert(0, contato['telefone'])
+    combo_categoria.set(contato['categoria'])
 
 
 label_titulo=Label(frame1, text='AGENDA TELEFÔNICA', font='Arial 14 bold',justify='center', cursor='hand2',pady=20,fg='black',width=600)
@@ -83,13 +105,13 @@ combo_categoria=ttk.Combobox(janela, values=categoria, font='Arial 14',backgroun
 combo_categoria.place(x=200, y=200)
 
 #botões:
-button_adicionar=Button(janela,text='Adicionar', font='Arial 14 bold',border=2, fg='red',bg='yellow', width=10,command=adicionar_contato)
+button_adicionar=Button(janela,text='Adicionar', font='Arial 14 bold',border=2, fg='red',bg='yellow', width=10,command=adicionarContato)
 button_adicionar.place(x=40,y=300)
 
-button_editar=Button(janela,text='Editar', font='Arial 14 bold',border=2, fg='red',bg='yellow',width=10)
+button_editar=Button(janela,text='Editar', font='Arial 14 bold',border=2, fg='red',bg='yellow',width=10,command=editar)
 button_editar.place(x=200,y=300)
 
-button_apagar=Button(janela,text='Apagar', font='Arial 14 bold',border=2, fg='red',bg='yellow',width=10)
+button_apagar=Button(janela,text='Apagar', font='Arial 14 bold',border=2, fg='red',bg='yellow',width=10, command=apagar)
 button_apagar.place(x=360,y=300)
 
 colunas=['Nome', 'Telefone', 'Categoria'] #defdinindo as colunas da tabela, mas noa o nome delas
@@ -105,7 +127,7 @@ tabela.place(x=40,y=400)
 #     tabela.heading(c, text=c, minwidth='50')
 #     print(c)
 
-tabela.bind("<ButtonRelease-1>", tabelaClique)
+tabela.bind("<ButtonRelease-1>", tabela_clique)
 
 
 janela.mainloop()
